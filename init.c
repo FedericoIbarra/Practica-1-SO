@@ -13,7 +13,7 @@ int main(int argc, char const *argv[]) {
   if (p > 0) p = fork();
   p =  fork();
 
-  execlp("xterm", "",NULL);
+  execlp("xterm","-n","-e","./getty",  NULL); //"-e", "./getty", NULL);
 
   p = fork();
 

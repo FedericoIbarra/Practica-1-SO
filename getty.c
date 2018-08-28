@@ -3,9 +3,21 @@
 #include <unistd.h>
 #include <string.h>
 
-int main(int argc, char const *argv[]) {
+int main() {
   /* code */
+char cmd[80];
+char cmd2[80];
 
-  printf("CMD\n");
-  return 0;
+
+  do {
+		printf("User: ");
+		scanf("%[^\n]%*c",cmd);
+		//system(cmd);
+	} while(strlen(cmd) == 0);
+
+  while (strlen(cmd2) == 0) {
+    printf("Password: \n");
+    scanf("%[^\n]%*c",cmd2);
+  }
+
 }
