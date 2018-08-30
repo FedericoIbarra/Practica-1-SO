@@ -5,21 +5,33 @@
 
 
 int main() {
-  /* code */
-char cmd[80];
-char cmd2[80];
-char bf[160];
-char usr[80];
-char ps[80];
-int i = 0, i2 = 0;
 
+  /** User variable introduced into terminal. */
+  char cmd[80];
+
+  /** Password variable introduced into terminal. */
+  char cmd2[80];
+
+  /** Buffer used for reading the passwd file. */
+  char bf[160];
+
+  /** User variable of the file. */
+  char usr[80];
+
+  /** Password variable of the file. */
+  char ps[80];
+
+  /** Idexes for looping. */
+  int i = 0, i2 = 0;
+  int login = 1;
+
+  /** File with the users and passwords. */
   FILE *psd;
   psd = fopen("passwd", "r");
-
   fgets(bf, 80, psd);
 
 
-
+  /** getUser from buffer. */
   while (bf[i] != ':') {
     usr[i] = bf[i];
     i++;
@@ -27,14 +39,14 @@ int i = 0, i2 = 0;
 
   i++;
 
+  /** getPassword from buffer. */
   while (bf[i] != ' ') {
     ps[i2] = bf[i];
-    printf("%c\n", bf[i]);
     i++;
     i2++;
   }
 
-
+  /** Ask for the user and password until they are valid. */
   do {
 		printf("User: ");
 		scanf("%[^\n]%*c",cmd);
@@ -42,8 +54,11 @@ int i = 0, i2 = 0;
     scanf("%[^\n]%*c",cmd2);
 
     if((strcmp(usr, cmd) == 0) && (strcmp(ps, cmd2) == 0)) {
-       fork();
-       execlp("xterm","-n","-e","./sh",  NULL); 
+      login = 0;
+
+      /** Replace process with a new xterm terminal and the execution of sh. */
+       execlp("xterm","-n","-e","./sh",  NULL);
+
      } else {
        printf("Password or User wrong\n\n\n");
      }
@@ -51,5 +66,5 @@ int i = 0, i2 = 0;
 
 	} while(login);
 
-  return -1;
+  return 0;
 }

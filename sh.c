@@ -9,7 +9,7 @@
 int main() {
   char cmd[80];
   do {
-    	printf("Sh> ");
+    	printf("%d", getpid());
     	scanf("%[^\n]%*c",cmd);
       if (strcmp("shutdow", cmd) != 0) {
         system(cmd); // Cambiar  system
