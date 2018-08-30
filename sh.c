@@ -8,11 +8,20 @@
 
 int main() {
   char cmd[80];
+
+system("clear");
+
   do {
-    	printf("%d", getpid());
+    	printf("Sh> ");
     	scanf("%[^\n]%*c",cmd);
-      if (strcmp("shutdow", cmd) != 0) {
+      if (strcmp("exit", cmd) == 0) {
+        //printf("Si jala\n");
+        kill(getpid(), SIGKILL);
+      }  else if (strcmp("shutdow", cmd) == 0) {
+         execlp("killall","9","*",NULL);
+      } else {
         system(cmd); // Cambiar  system
       }
+
   } while(strcmp("shutdow", cmd) != 0);
 }

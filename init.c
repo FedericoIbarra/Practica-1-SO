@@ -15,17 +15,31 @@ int main(int argc, char const *argv[]) {
   int status;
 
   /** Return value of exec */
-  int f;
+  int f,l;
 
 
-  /** Fork all, total = 2 */
-  p = fork();
+  while (1) {
+    p = fork();
+    if ( p == 0) p = fork();
+    p = fork();
+    p = fork();
 
-  /** Only fork the parent, total = 3 */
-  if(p == 0) p =  fork();
+    l = wait(&status);
 
-  /** Fork all again, total = 6 */
-  p = fork();
+  printf("%d - %d\n",l,status);
+    if((l != 0) && (status == 0)) {
+      p = fork();
+      wait(&status);
+      execlp("xterm","-n","-e","./getty",  NULL);
+    }
+
+    execlp("xterm","-n","-e","./getty",  NULL);
+
+    execlp("./init","",NULL);
+
+
+  }
+
 
   /**
   * Replace code with a xterm terminal.
@@ -34,7 +48,7 @@ int main(int argc, char const *argv[]) {
   * -e      - the new terminal has arguments to be executed.
   * ./getty - program to be executed by new terminal.
   */
-  execlp("xterm","-n","-e","./getty",  NULL);
+//  execlp("xterm","-n","-e","./getty",  NULL);
 
 
 

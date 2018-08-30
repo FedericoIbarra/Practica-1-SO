@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/wait.h>
 
 
 int main() {
@@ -57,7 +58,10 @@ int main() {
       login = 0;
 
       /** Replace process with a new xterm terminal and the execution of sh. */
-       execlp("xterm","-n","-e","./sh",  NULL);
+      fork();
+    //  execlp("xterm","-n","-e","./sh",  NULL);
+      execlp("./sh","",NULL);
+      wait(&login);
 
      } else {
        printf("Password or User wrong\n\n\n");
