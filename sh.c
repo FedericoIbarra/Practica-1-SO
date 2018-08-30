@@ -11,6 +11,8 @@ int main() {
   do {
     	printf("Sh> ");
     	scanf("%[^\n]%*c",cmd);
-      system(cmd); // Cambiar  system
-  } while(strcmp("shutdown", cmd) != 0);
+      if (strcmp("shutdow", cmd) != 0) {
+        system(cmd); // Cambiar  system
+      }
+  } while(strcmp("shutdow", cmd) != 0);
 }
