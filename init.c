@@ -18,6 +18,7 @@ int main(int argc, char const *argv[]) {
   int f,l;
 
 
+//Cambiar la manera en que se generan los processos.
   while (1) {
     p = fork();
     if ( p == 0) p = fork();

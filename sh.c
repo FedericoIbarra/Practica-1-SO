@@ -10,7 +10,6 @@ int main() {
   char cmd[80];
   int i = 0;
 
-system("clear");
 
   do {
     	printf("Sh> ");
