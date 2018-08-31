@@ -13,7 +13,7 @@ int main() {
 
   do {
     	printf("Sh> ");
-    	scanf("%[^\n]%*c",cmd);
+    	scanf("%s",cmd);
       if (strcmp("exit", cmd) == 0) {
         //printf("Si jala\n");
         kill(getpid(), SIGKILL);
@@ -22,9 +22,9 @@ int main() {
            execlp("kill","-9",getpid(),NULL);
         //   i++;
         //}
-
       }*/ else {
-        system(cmd); // Cambiar  system
+        popen(cmd,"w"); // Cambiar  system
+        wait(NULL);
       }
 
   } while(strcmp("shutdow", cmd) != 0);
