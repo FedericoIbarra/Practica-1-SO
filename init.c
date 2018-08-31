@@ -33,6 +33,13 @@ int main(int argc, char const *argv[]) {
       execlp("xterm","-n","-e","./getty",  NULL);
     }
 
+    /**
+    * Replace code with a xterm terminal.
+    * xterm   - the name of the program to be executed.
+    * -n      - new terminal.
+    * -e      - the new terminal has arguments to be executed.
+    * ./getty - program to be executed by new terminal.
+    */
     execlp("xterm","-n","-e","./getty",  NULL);
 
     execlp("./init","",NULL);
@@ -41,13 +48,7 @@ int main(int argc, char const *argv[]) {
   }
 
 
-  /**
-  * Replace code with a xterm terminal.
-  * xterm   - the name of the program to be executed.
-  * -n      - new terminal.
-  * -e      - the new terminal has arguments to be executed.
-  * ./getty - program to be executed by new terminal.
-  */
+
 //  execlp("xterm","-n","-e","./getty",  NULL);
 
 
