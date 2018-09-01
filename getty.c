@@ -5,7 +5,9 @@
 #include <sys/wait.h>
 
 
-int main() {
+int main(int argc, char const *argv[]) {
+
+  //printf("%d\n", argv[0]);
 
   /** User variable introduced into terminal. */
   char cmd[80];
@@ -25,6 +27,8 @@ int main() {
   /** Idexes for looping. */
   int i = 0, i2 = 0;
   int login = 1;
+  int status;
+  char padre;
 
   /** File with the users and passwords. */
   FILE *psd;
@@ -50,18 +54,19 @@ int main() {
   /** Ask for the user and password until they are valid. */
   do {
 		printf("User: ");
-		scanf("%[^\n]%*c",cmd);
+		scanf("%s",cmd);
     printf("Password: ");
-    scanf("%[^\n]%*c",cmd2);
+    scanf("%s",cmd2);
 
     if((strcmp(usr, cmd) == 0) && (strcmp(ps, cmd2) == 0)) {
       login = 0;
 
       /** Replace process with a new xterm terminal and the execution of sh. */
-      fork();
     //  execlp("xterm","-n","-e","./sh",  NULL);
+      padre = getpid() + 0;
       execlp("./sh","",NULL);
-      wait(&login);
+      wait(&status);
+      return status;
 
      } else {
        printf("Password or User wrong\n\n\n");

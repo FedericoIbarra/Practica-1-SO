@@ -6,7 +6,7 @@
 #include <signal.h>
 
 
-int main() {
+int main(int argc, char const *argv[]) {
   char cmd[80];
   int i = 0;
 
@@ -15,14 +15,10 @@ int main() {
     	printf("Sh> ");
     	scanf("%s",cmd);
       if (strcmp("exit", cmd) == 0) {
-        //printf("Si jala\n");
-        kill(getpid(), SIGKILL);
-      }  /*else if (strcmp("shut", cmd) == 0) {
-      //  while (i < 6) {
-           execlp("kill","-9",getpid(),NULL);
-        //   i++;
-        //}
-      }*/ else {
+        return -1;
+      }  else if (strcmp("shutdown", cmd) == 0) {
+          kill(getpid(), SIGKILL);
+      } else {
         popen(cmd,"w"); // Cambiar  system
         wait(NULL);
       }

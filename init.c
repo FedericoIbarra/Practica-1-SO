@@ -5,52 +5,40 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+#define PROCESSES 6
+
+int pid[PROCESSES];
+int status;
 
 int main(int argc, char const *argv[]) {
 
-  /** Return value of fork */
-  int p;
-
-  /** Status of new processes */
-  int status;
-
-  /** Return value of exec */
-  int f,l;
+  int i, index = 0;
+  index = PROCESSES;
 
 
-//Cambiar la manera en que se generan los processos.
-  while (1) {
-    p = fork();
-    if ( p == 0) p = fork();
-    p = fork();
-    p = fork();
+    for (i = 0; i < index; i++) {
 
-    l = wait(&status);
-
-  printf("%d - %d\n",l,status);
-    if((l != 0) && (status == 0)) {
-      p = fork();
-      wait(&status);
-      execlp("xterm","-n","-e","./getty",  NULL);
+      pid[i] = fork();
+      if(pid[i] == 0) {
+        //printf("Proceso numero: %d\n", getpid());
+        execlp("xterm","-n","-e","./getty",  NULL);
+      }
     }
 
-    /**
-    * Replace code with a xterm terminal.
-    * xterm   - the name of the program to be executed.
-    * -n      - new terminal.
-    * -e      - the new terminal has arguments to be executed.
-    * ./getty - program to be executed by new terminal.
-    */
-    execlp("xterm","-n","-e","./getty",  NULL);
+    while (1) {
+      wait(&status);
+      printf("%d\n", status);
+      for(i = 0; i < PROCESSES; i++) {
+        if(getpgid(pid[i]) == -1) {
+          pid[i] = fork();
+          if(pid[i] == 0)  execlp("xterm","-n","-e","./getty",  NULL);
+        }
+      }
 
-    execlp("./init","",NULL);
-
-
-  }
+    }
 
 
 
-//  execlp("xterm","-n","-e","./getty",  NULL);
 
 
 
