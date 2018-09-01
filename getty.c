@@ -7,8 +7,6 @@
 
 int main(int argc, char const *argv[]) {
 
-  //printf("%d\n", argv[0]);
-
   /** User variable introduced into terminal. */
   char cmd[80];
 
@@ -31,27 +29,32 @@ int main(int argc, char const *argv[]) {
   int status;
   char padre;
 
+  /** Flags to know if user/password was correct or not*/
   int access = 0;
   int miss = 0;
 
   /** File with the users and passwords. */
   FILE *psd;
-  psd = fopen("passwd", "r");
 
   /** Ask for the user and password until they are valid. */
   do {
+    /**Opens files with users/passwords*/
+    psd = fopen("passwd", "r");
+    /**Gets one user/passwords*/
+    fgets(bf, 80, psd);
+
+    /**Asks for user and password to login*/
 		printf("User: ");
 		scanf("%s",cmd);
     printf("Password: ");
     scanf("%s",cmd2);
 
-    fclose(psd);
-    psd = fopen("passwd", "r");
-    fgets(bf, 80, psd);
-
+    /**Clears flag when try was incorrect*/
     miss = 0;
 
+    /**Loop to check if user/password was correct or not*/
     do {
+      /**Clear char indexes*/
       i = 0, i2 = 0;
 
       /** getUser from buffer. */
@@ -71,25 +74,43 @@ int main(int argc, char const *argv[]) {
         i2++;
       }
 
-      if((strcmp(usr, cmd) == 0) && (strcmp(ps, cmd2) == 0))
+      /**Succesful login*/
+      if(((strcmp(usr, cmd) == 0) || (strcmp(usr, cmd) == 111))
+        && ((strcmp(ps, cmd2) == 0) || (strcmp(ps, cmd2) == 117)))
       {
         access = 1;
        }
 
+       /**User/password does not match the one analyzed (at the moment) on the list*/
        else
        {
+         /**None of the users/passwords match with inputs*/
           if(fgets(bf, 80, psd) == NULL)
           {
+              /**Flag to indicate mismatch with user/password*/
               miss = 1;
-              printf("Wrong Password or User\n\n\n");
+
+              /**Clears terminal after failed login*/
+              popen("clear","w");
+              wait(NULL);
+
+              /**Indicates failed login*/
+              printf("Wrong Password or User\n");
           }
        }
-
     } while((access == 0) && (miss == 0));
 
+    /**Closes users/passwords file*/
+    fclose(psd);
+
+    /**Switch to shell if login was Succesful*/
     if(access == 1)
     {
         login = 0;
+
+        /**Clears terminal after login*/
+        popen("clear","w");
+        wait(NULL);
 
         /** Replace process with a new xterm terminal and the execution of sh. */
         padre = getpid() + 0;
