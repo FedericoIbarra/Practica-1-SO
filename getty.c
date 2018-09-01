@@ -17,6 +17,7 @@ int main(int argc, char const *argv[]) {
 
   /** Buffer used for reading the passwd file. */
   char bf[160];
+  char bf_temp[160];
 
   /** User variable of the file. */
   char usr[80];
@@ -30,26 +31,12 @@ int main(int argc, char const *argv[]) {
   int status;
   char padre;
 
+  int access = 0;
+  int miss = 0;
+
   /** File with the users and passwords. */
   FILE *psd;
   psd = fopen("passwd", "r");
-  fgets(bf, 80, psd);
-
-
-  /** getUser from buffer. */
-  while (bf[i] != ':') {
-    usr[i] = bf[i];
-    i++;
-  }
-
-  i++;
-
-  /** getPassword from buffer. */
-  while (bf[i] != ' ') {
-    ps[i2] = bf[i];
-    i++;
-    i2++;
-  }
 
   /** Ask for the user and password until they are valid. */
   do {
@@ -58,20 +45,59 @@ int main(int argc, char const *argv[]) {
     printf("Password: ");
     scanf("%s",cmd2);
 
-    if((strcmp(usr, cmd) == 0) && (strcmp(ps, cmd2) == 0)) {
-      login = 0;
+    fclose(psd);
+    psd = fopen("passwd", "r");
+    fgets(bf, 80, psd);
 
-      /** Replace process with a new xterm terminal and the execution of sh. */
-    //  execlp("xterm","-n","-e","./sh",  NULL);
-      padre = getpid() + 0;
-      execlp("./sh","",NULL);
-      wait(&status);
-      return status;
+    miss = 0;
 
-     } else {
-       printf("Password or User wrong\n\n\n");
-     }
+    do {
+      i = 0, i2 = 0;
 
+      /** getUser from buffer. */
+      while (bf[i] != ':')
+      {
+        usr[i] = bf[i];
+        i++;
+      }
+
+      i++;
+
+      /** getPassword from buffer. */
+      while (bf[i] != ' ')
+      {
+        ps[i2] = bf[i];
+        i++;
+        i2++;
+      }
+
+      if((strcmp(usr, cmd) == 0) && (strcmp(ps, cmd2) == 0))
+      {
+        access = 1;
+       }
+
+       else
+       {
+          if(fgets(bf, 80, psd) == NULL)
+          {
+              miss = 1;
+              printf("Wrong Password or User\n\n\n");
+          }
+       }
+
+    } while((access == 0) && (miss == 0));
+
+    if(access == 1)
+    {
+        login = 0;
+
+        /** Replace process with a new xterm terminal and the execution of sh. */
+        padre = getpid() + 0;
+        execlp("./sh","",NULL);
+        wait(&status);
+        return status;
+
+       }
 
 	} while(login);
 
