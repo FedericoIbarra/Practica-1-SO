@@ -15,7 +15,6 @@ int main(int argc, char const *argv[]) {
 
   /** Buffer used for reading the passwd file. */
   char bf[160];
-  char bf_temp[160];
 
   /** User variable of the file. */
   char usr[80];
