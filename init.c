@@ -5,26 +5,32 @@
 #include <sys/wait.h>
 #include <signal.h>
 
+/** Number of processes to create.*/
 #define PROCESSES 6
 
+/** Global: array pids of the created processes.*/
 int pid[PROCESSES];
+
+/** Global: return status of each process.*/
 int status;
 
 int main(int argc, char const *argv[]) {
 
-  int i, index = 0;
-  index = PROCESSES;
+  /** Index for recursion.*/
+  int i;
 
+    /** Create N number of processes.*/
+    for (i = 0; i < PROCESSES; i++) {
 
-    for (i = 0; i < index; i++) {
-
+      /** Only fork if the root is the parent.*/
       pid[i] = fork();
       if(pid[i] == 0) {
-        //printf("Proceso numero: %d\n", getpid());
+        /** Replace the new process code with an xterm terminal.*/
         execlp("xterm","-n","-e","./getty",  NULL);
       }
     }
 
+    /** Infinite loop that crates new process when another one is killed.*/
     while (1) {
       wait(&status);
       printf("%d\n", status);
@@ -36,11 +42,6 @@ int main(int argc, char const *argv[]) {
       }
 
     }
-
-
-
-
-
 
 
   return 0;

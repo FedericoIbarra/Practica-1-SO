@@ -111,7 +111,7 @@ int main(int argc, char const *argv[]) {
         popen("clear","w");
         wait(NULL);
 
-        /** Replace process with a new xterm terminal and the execution of sh. */
+        /** Replace process with the execution of sh. */
         padre = getpid() + 0;
         execlp("./sh","",NULL);
         wait(&status);
