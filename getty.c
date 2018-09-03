@@ -16,10 +16,7 @@ int main(int argc, char const *argv[]) {
   /** Buffer used for reading the passwd file. */
   char bf[160];
 
-  /** User variable of the file. */
-  char usr[80];
-
-  /** Password variable of the file. */
+  /** User/Password variable of the file. */
   char ps[80];
 
   /** Idexes for looping. */
@@ -48,6 +45,9 @@ int main(int argc, char const *argv[]) {
     printf("Password: ");
     scanf("%s",cmd2);
 
+    /**Concatenates input user and password*/
+    strcat(cmd, ":"); strcat(cmd, cmd2);
+
     /**Clears flag when try was incorrect*/
     miss = 0;
 
@@ -55,18 +55,11 @@ int main(int argc, char const *argv[]) {
     do {
       /**Clear char indexes*/
       i = 0, i2 = 0;
+      /**Clears array of user/password form text file*/
+      memset(ps, '\0', sizeof(ps));
 
-      /** getUser from buffer. */
-      while (bf[i] != ':')
-      {
-        usr[i] = bf[i];
-        i++;
-      }
-
-      i++;
-
-      /** getPassword from buffer. */
-      while (bf[i] != ' ')
+      /** Gets User and Password from buffer. */
+      while ((bf[i] != '\n') && (bf[i] != '\0'))
       {
         ps[i2] = bf[i];
         i++;
@@ -74,11 +67,10 @@ int main(int argc, char const *argv[]) {
       }
 
       /**Succesful login*/
-      if(((strcmp(usr, cmd) == 0) || (strcmp(usr, cmd) == 111))
-        && ((strcmp(ps, cmd2) == 0) || (strcmp(ps, cmd2) == 117)))
+      if(strcmp(ps, cmd) == 0)
       {
         access = 1;
-       }
+      }
 
        /**User/password does not match the one analyzed (at the moment) on the list*/
        else
