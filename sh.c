@@ -24,7 +24,7 @@ int main(int argc, char const *argv[]) {
       return -1;
     }
     /**Shuts down all six processes*/
-    else if (strcmp("shut", cmd) == 0)
+    else if (strcmp("shutdown", cmd) == 0)
     {
         execl("/usr/bin/killall", "killall","./init","./getty", "./sh", (char*)NULL);
     }
