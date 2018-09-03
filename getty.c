@@ -20,7 +20,7 @@ int main(int argc, char const *argv[]) {
   char ps[80];
 
   /** Idexes for looping. */
-  int i = 0, i2 = 0;
+  int i = 0;
   int login = 1;
   int status;
   char padre;
@@ -54,16 +54,15 @@ int main(int argc, char const *argv[]) {
     /**Loop to check if user/password was correct or not*/
     do {
       /**Clear char indexes*/
-      i = 0, i2 = 0;
+      i = 0;
       /**Clears array of user/password form text file*/
       memset(ps, '\0', sizeof(ps));
 
       /** Gets User and Password from buffer. */
       while ((bf[i] != '\n') && (bf[i] != '\0'))
       {
-        ps[i2] = bf[i];
+        ps[i] = bf[i];
         i++;
-        i2++;
       }
 
       /**Succesful login*/
